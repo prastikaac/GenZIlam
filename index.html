@@ -231,24 +231,46 @@
       ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 
       if (uploadedPhoto) {
-        ctx.save();
-        ctx.beginPath();
-        const centerX = 295;
-        const centerY = 380;
-        const radius = 145;
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.clip();
-        const imgSize = radius * 2;
-        ctx.drawImage(uploadedPhoto, centerX - radius, centerY - radius, imgSize, imgSize);
-        ctx.restore();
+  ctx.save();
+  ctx.beginPath();
+  const centerX = 295;
+  const centerY = 380;
+  const radius = 145;
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+  ctx.closePath();
+  ctx.clip();
 
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "white";
-        ctx.stroke();
-      }
+  // Fit image in circle while keeping aspect ratio
+  const imgAspect = uploadedPhoto.width / uploadedPhoto.height;
+  const frameSize = radius * 2;
+
+  let drawWidth, drawHeight, offsetX, offsetY;
+
+  if (imgAspect > 1) {
+    // Wider than tall → full height
+    drawHeight = frameSize;
+    drawWidth = frameSize * imgAspect;
+    offsetX = centerX - drawWidth / 2;
+    offsetY = centerY - drawHeight / 2;
+  } else {
+    // Taller than wide → full width
+    drawWidth = frameSize;
+    drawHeight = frameSize / imgAspect;
+    offsetX = centerX - drawWidth / 2;
+    offsetY = centerY - drawHeight / 2;
+  }
+
+  ctx.drawImage(uploadedPhoto, offsetX, offsetY, drawWidth, drawHeight);
+  ctx.restore();
+
+  // White border
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = "white";
+  ctx.stroke();
+}
+
 
       ctx.fillStyle = "white";
       ctx.font = "bold 35px Poppins";

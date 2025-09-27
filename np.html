@@ -7,7 +7,7 @@
   <title>परिचय पत्र जनरेटर</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-      body {
+    body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       background: #f4f6f9;
@@ -173,7 +173,6 @@
         max-width: 800px;
       }
     }
-
   </style>
 </head>
 
@@ -226,54 +225,72 @@
       reader.readAsDataURL(e.target.files[0]);
     });
 
-    function generateID() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+    if (uploadedPhoto) {
+      ctx.save();
+      ctx.beginPath();
+      const centerX = 295;
+      const centerY = 380;
+      const radius = 145;
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.clip();
 
-      if (uploadedPhoto) {
-        ctx.save();
-        ctx.beginPath();
-        const centerX = 295;
-        const centerY = 380;
-        const radius = 145;
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.clip();
-        const imgSize = radius * 2;
-        ctx.drawImage(uploadedPhoto, centerX - radius, centerY - radius, imgSize, imgSize);
-        ctx.restore();
+      // Fit image in circle while keeping aspect ratio
+      const imgAspect = uploadedPhoto.width / uploadedPhoto.height;
+      const frameSize = radius * 2;
 
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "white";
-        ctx.stroke();
+      let drawWidth, drawHeight, offsetX, offsetY;
+
+      if (imgAspect > 1) {
+        // Wider than tall → full height
+        drawHeight = frameSize;
+        drawWidth = frameSize * imgAspect;
+        offsetX = centerX - drawWidth / 2;
+        offsetY = centerY - drawHeight / 2;
+      } else {
+        // Taller than wide → full width
+        drawWidth = frameSize;
+        drawHeight = frameSize / imgAspect;
+        offsetX = centerX - drawWidth / 2;
+        offsetY = centerY - drawHeight / 2;
       }
 
-      ctx.fillStyle = "white";
-      ctx.font = "bold 35px Poppins";
-      ctx.textAlign = "center";
-      ctx.fillText(document.getElementById("name").value.toUpperCase(), canvas.width / 2, 600);
+      ctx.drawImage(uploadedPhoto, offsetX, offsetY, drawWidth, drawHeight);
+      ctx.restore();
 
-      ctx.fillStyle = "white";
-      ctx.font = "22px Poppins";
-      ctx.fillText("सदस्य", canvas.width / 2, 640);
+      // White border
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = "white";
+      ctx.stroke();
+    }
 
-      ctx.fillStyle = "black";
-      ctx.font = "25px Poppins";
-      ctx.textAlign = "left";
 
-      const x = 100;
-      const yStart = 770;
-      const gap = 45;
+    ctx.fillStyle = "white";
+    ctx.font = "bold 35px Poppins";
+    ctx.textAlign = "center";
+    ctx.fillText(document.getElementById("name").value.toUpperCase(), canvas.width / 2, 600);
 
-      ctx.fillText("परिचय पत्र नं : " + uniqueID, x, yStart);
-      ctx.fillText("ठेगाना : " + document.getElementById("address").value, x, yStart + gap);
-      ctx.fillText("निर्वाचन क्षेत्र नं : " + document.getElementById("election").value, x, yStart + gap * 2);
-      ctx.fillText("फोन नं : " + document.getElementById("phone").value, x, yStart + gap * 3);
+    ctx.fillStyle = "white";
+    ctx.font = "22px Poppins";
+    ctx.fillText("सदस्य", canvas.width / 2, 640);
 
-      document.getElementById("cardSection").style.display = "block";
-      document.getElementById("cardSection").scrollIntoView({ behavior: "smooth" });
+    ctx.fillStyle = "black";
+    ctx.font = "25px Poppins";
+    ctx.textAlign = "left";
+
+    const x = 100;
+    const yStart = 770;
+    const gap = 45;
+
+    ctx.fillText("परिचय पत्र नं : " + uniqueID, x, yStart);
+    ctx.fillText("ठेगाना : " + document.getElementById("address").value, x, yStart + gap);
+    ctx.fillText("निर्वाचन क्षेत्र नं : " + document.getElementById("election").value, x, yStart + gap * 2);
+    ctx.fillText("फोन नं : " + document.getElementById("phone").value, x, yStart + gap * 3);
+
+    document.getElementById("cardSection").style.display = "block";
+    document.getElementById("cardSection").scrollIntoView({ behavior: "smooth" });
     }
 
     function downloadID() {
