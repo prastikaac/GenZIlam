@@ -1,14 +1,68 @@
 <!DOCTYPE html>
-<html lang="ne">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gen-Z इलाम - युवा क्रान्ति || आफ्नो परिचय पत्र प्राप्त गर्नुहोस्</title>
+  <title>Gen-Z इलाम - A Youth Revolution || Get your ID Card</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 
+
+  <style>
+    .info-text {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #0077cc;
+      margin-top: 5px;
+      cursor: pointer;
+      width: fit-content;
+      text-decoration: underline;
+    }
+
+    .info-text svg {
+      width: 16px;
+      height: 16px;
+      fill: #0077cc;
+    }
+
+    /* Popup styling */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      text-align: center;
+      font-family: Poppins, sans-serif;
+    }
+
+    .popup-box button {
+      margin-top: 15px;
+      padding: 8px 16px;
+      border: none;
+      background: #0077cc;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,76 +71,21 @@
       style="max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
   </div>
 
-  <h2>आफ्नो परिचय पत्र बनाउनुहोस्</h2>
+  <h2>Get your Id card</h2>
 
   <!-- Form Section -->
   <div class="form-container" id="formSection">
-    <input type="text" id="name" placeholder="पूरा नाम">
-    <div class="error" id="nameError">पूरा नाम हाल्नुहाेस्</div>
+    <input type="text" id="name" placeholder="Full Name">
+    <div class="error" id="nameError">Full name is required.</div>
 
-    <input type="text" id="address" placeholder="ठेगाना">
-    <div class="error" id="addressError">ठेगाना हाल्नुहाेस्</div>
+    <input type="text" id="address" placeholder="Address">
+    <div class="error" id="addressError">Address is required.</div>
 
     <select id="election">
-      <option value="">निर्वाचन क्षेत्र छान्नुहोस्</option>
-      <option value="1">निर्वाचन क्षेत्र १</option>
-      <option value="2">निर्वाचन क्षेत्र २</option>
+      <option value="">Select Election Area No</option>
+      <option value="1">Election Area No 1</option>
+      <option value="2">Election Area No 2</option>
     </select>
-    <div class="error" id="electionError">निर्वाचन क्षेत्र हाल्नुहाेस्</div>
-
-    <style>
-      .info-text {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 14px;
-        color: #0077cc;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        cursor: pointer;
-        width: fit-content;
-        text-decoration: underline;
-      }
-
-      .info-text svg {
-        width: 16px;
-        height: 16px;
-        fill: #0077cc;
-      }
-
-      /* Popup styling */
-      .popup-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-      }
-
-      .popup-box {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 400px;
-        text-align: center;
-        font-family: Poppins, sans-serif;
-      }
-
-      .popup-box button {
-        margin-top: 15px;
-        padding: 8px 16px;
-        border: none;
-        background: #0077cc;
-        color: white;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-    </style>
     <div class="error" id="electionError">Election area is required.</div>
     <!-- 👉 Info text with SVG -->
     <div class="info-text" onclick="openPopup()">
@@ -94,47 +93,36 @@
         <path
           d="M320 576C461.4 576 576 461.4 576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 461.4 178.6 576 320 576zM288 224C288 206.3 302.3 192 320 192C337.7 192 352 206.3 352 224C352 241.7 337.7 256 320 256C302.3 256 288 241.7 288 224zM280 288L328 288C341.3 288 352 298.7 352 312L352 400L360 400C373.3 400 384 410.7 384 424C384 437.3 373.3 448 360 448L280 448C266.7 448 256 437.3 256 424C256 410.7 266.7 400 280 400L304 400L304 336L280 336C266.7 336 256 325.3 256 312C256 298.7 266.7 288 280 288z" />
       </svg>
-      इलामको निर्वाचन क्षेत्र नं बारे जान्नुहोस्
+      Learn about Election area no in Ilam
     </div>
-
-    <input type="text" id="phone" placeholder="फोन नम्बर">
-    <div class="error" id="phoneError">फोन नम्बर हाल्नुहाेस्</div>
+    <input type="text" id="phone" placeholder="Phone No">
+    <div class="error" id="phoneError">Phone number is required.</div>
 
     <input type="file" id="photo" accept="image/*">
-    <div class="error" id="photoError">फोटो हाल्नुहाेस्</div>
+    <div class="error" id="photoError">Photo is required.</div>
 
-    <button onclick="generateID()">परिचय पत्र बनाउनुहोस्</button>
+    <button onclick="generateID()">Generate ID</button>
   </div>
 
   <!-- Card Section -->
   <div class="card-section" id="cardSection">
     <canvas id="idCard" width="591" height="1004"></canvas>
     <div class="action-buttons">
-      <button class="download-btn" onclick="downloadID()">परिचय पत्र डाउनलोड गर्नुहोस्</button>
-      <button class="edit-btn" onclick="scrollToForm()">परिचय पत्र विवरण सच्याउनुस्</button>
+      <button class="download-btn" onclick="downloadID()">Download Image</button>
+      <button class="edit-btn" onclick="scrollToForm()">Edit ID Card</button>
     </div>
   </div>
-
-
-
-
 
   <!-- Popup -->
   <div class="popup-overlay" id="popup">
     <div class="popup-box">
       <!-- Cross Close Button -->
       <span class="close-btn" onclick="closePopup()">&times;</span>
-      <h3 style="font-size: 23px;">इलामका निर्वाचन क्षेत्र नं</h3>
-      <p style="margin-top: 20px;"><strong>निर्वाचन क्षेत्र नं १ : </strong>निर्वाचन क्षेत्र नं १ मा सन्दकपुर
-        गाउँपालिका, माइजोगमाई गाउँपालिका, र रोङ गाउँपालिकाका सबै वडा समेटिएका छन्, साथै सूर्यदय नगरपालिकाका सबै वडा पनि
-        समेटिएका छन् । यसका साथै, इलाम नगरपालिकाका वडा १०, १३, र १४ तथा माई नगरपालिकाका वडा १–५, ९, र १० पनि समेटिएका
-        छन् ।</p>
-
-      <p style="margin-top: 30px;"><strong>निर्वाचन क्षेत्र नं २ : </strong>निर्वाचन क्षेत्र नं २ मा चुलाचुली
-        गाउँपालिका, माङसेबुङ गाउँपालिका, र फाकफोकथुम गाउँपालिकाका सबै वडा समेटिएका छन्, साथै देउमाई नगरपालिकाका सबै वडा
-        पनि समेटिएका छन् । यसका साथै, इलाम नगरपालिकाका वडा १–९, ११, र १२ तथा माई नगरपालिकाका वडा ६–८ पनि समेटिएका छन् ।
-      </p>
-
+      <h3 style="font-size: 23px;">Election Area No In Ilam</h3> 
+      <p style="margin-top: 20px;"><strong>Election Area No 1 : </strong>In Election Area No 1, it includes all wards of Sandakpur Rural Municipality, Maijogmai Rural Municipality, and Rong Rural Municipality, as well as all wards of Suryodaya Municipality. Additionally, it covers Wards 10, 13, and 14 of Ilam Municipality and Wards 1–5, 9, and 10 of Mai Municipality.</p>
+    
+      <p style="margin-top: 30px;"><strong>Election Area No 2 : </strong> In Election Area No 2, it includes all wards of Chulachuli Rural Municipality, Mangsebung Rural Municipality, and Phakphokthum Rural Municipality, as well as all wards of Deumai Municipality. Additionally, it covers Wards 1–9, 11, and 12 of Ilam Municipality and Wards 6–8 of Mai Municipality.
+</p>
     </div>
   </div>
 
@@ -252,16 +240,16 @@
       ctx.fillText(name.toUpperCase(), canvas.width / 2, 600);
 
       ctx.font = "22px Poppins";
-      ctx.fillText("सदस्य", canvas.width / 2, 640);
+      ctx.fillText("MEMBER", canvas.width / 2, 640);
 
       ctx.fillStyle = "black";
       ctx.font = "25px Poppins";
       ctx.textAlign = "left";
       const x = 100, yStart = 770, gap = 45;
-      ctx.fillText("परिचय पत्र नं : " + uniqueID, x, yStart);
-      ctx.fillText("ठेगाना : " + address, x, yStart + gap);
-      ctx.fillText("निर्वाचन क्षेत्र नं : " + election, x, yStart + gap * 2);
-      ctx.fillText("फोन नं : " + phone, x, yStart + gap * 3);
+      ctx.fillText("ID No : " + uniqueID, x, yStart);
+      ctx.fillText("Address : " + address, x, yStart + gap);
+      ctx.fillText("Election Area No : " + election, x, yStart + gap * 2);
+      ctx.fillText("Phone No : " + phone, x, yStart + gap * 3);
 
       document.getElementById("cardSection").style.display = "block";
       document.getElementById("cardSection").scrollIntoView({ behavior: "smooth" });
@@ -272,7 +260,7 @@
 
     window.downloadID = function () {
       const link = document.createElement('a');
-      link.download = 'परिचय_पत्र.png';
+      link.download = 'id_card.png';
       link.href = canvas.toDataURL();
       link.click();
     };
@@ -309,7 +297,7 @@
 
       try {
         // Upload to Firebase Storage
-        const imageRef = ref(storage, `id_card/${uniqueID}.png`);
+        const imageRef = ref(storage, `idcards/${uniqueID}.png`);
         await uploadString(imageRef, imageDataURL, 'data_url');
         const downloadURL = await getDownloadURL(imageRef);
 
@@ -324,9 +312,10 @@
           createdAt: new Date()
         });
 
-        console.log("Upload सफल:", downloadURL);
+        // ✅ No alert here anymore
+        console.log("Upload successful:", downloadURL);
       } catch (err) {
-        console.error("Upload त्रुटि:", err);
+        console.error("Upload error:", err);
       }
     };
   </script>

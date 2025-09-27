@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen-Z इलाम - A Youth Revolution | User List</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <style>
+        /* Base */
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            margin: 0;
+            background: linear-gradient(135deg, #f9fafc, #eef2f7);
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        /* Controls (Sort + Search) */
+        .controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 0.95rem;
+            color: #555;
+            margin-right: 6px;
+        }
+
+        select,
+        input[type="text"] {
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            background: #fff;
+            transition: all 0.2s ease;
+            min-width: 160px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        select:hover,
+        input[type="text"]:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Table Wrapper */
+        .table-wrapper {
+            overflow-x: auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            text-align: center;
+            font-size: 0.92rem;
+        }
+
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+
+        tr {
+            transition: background 0.2s ease;
+        }
+
+        tr:nth-child(even) {
+            background: #fafbfc;
+        }
+
+        tr:hover {
+            background: #f0f7ff;
+            cursor: pointer;
+        }
+
+        /* Popup */
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .popup-content {
+            background: #fff;
+            padding: 22px;
+            border-radius: 14px;
+            width: 420px;
+            max-width: 95%;
+            overflow-y: auto;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.3s ease;
+        }
+
+        @media (min-width: 600px) {
+            .popup-content {
+                max-height: 85vh !important;
+            }
+        }
+
+        .popup-content h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #1f2937;
+        }
+
+        .popup-content p {
+            margin: 8px 0;
+            font-size: 0.92rem;
+            color: #444;
+        }
+
+        .popup-content img {
+            margin-top: 12px;
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #777;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #ef4444;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                background: rgba(0, 0, 0, 0);
+            }
+
+            to {
+                background: rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            select,
+            input[type="text"] {
+                width: 65%;
+            }
+
+            .popup-content {
+                width: 90%;
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Gen-Z इलाम ID Card table</h1>
+
+    <!-- Sort + Search -->
+    <div class="controls">
+        <div>
+            <label for="sortSelect"><strong>Sort By:</strong></label>
+            <select id="sortSelect">
+                <option value="id">ID (Default)</option>
+                <option value="address">Address</option>
+                <option value="election">Election</option>
+                <option value="createdAt">Created Most Recently</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="searchInput"><strong>Search:</strong></label>
+            <input type="text" id="searchInput" placeholder="Type to search...">
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Sn</th>
+                    <th>User Name</th>
+                    <th id="thirdHeader">User ID</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2>User Details</h2>
+            <div id="userDetails"></div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        window.onload = () => {
+            const firebaseConfig = {
+                apiKey: "AIzaSyClJC3JxOzRVGn9Zvrvqbj1YBk0bbx9GiA",
+                authDomain: "genzilam.firebaseapp.com",
+                projectId: "genzilam",
+                storageBucket: "genzilam.firebasestorage.app",
+                messagingSenderId: "721683735385",
+                appId: "1:721683735385:web:f007bea1f09240f4676248",
+                measurementId: "G-WPEKC2T8WW"
+            };
+
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+
+            const tableBody = document.querySelector("#userTable tbody");
+            const thirdHeader = document.getElementById("thirdHeader");
+            const sortSelect = document.getElementById("sortSelect");
+            const searchInput = document.getElementById("searchInput");
+
+            let allUsers = [];
+
+            // Fetch users
+            db.collection("users").onSnapshot(snapshot => {
+                allUsers = [];
+                snapshot.forEach(doc => allUsers.push(doc.data()));
+                renderTable(sortSelect.value, searchInput.value);
+            });
+
+            // Render table
+            function renderTable(sortBy, searchQuery = "") {
+                let users = [...allUsers];
+
+                // Sorting
+                if (sortBy === "address") users.sort((a, b) => ((a.address || "").toLowerCase()).localeCompare((b.address || "").toLowerCase()));
+                else if (sortBy === "election") users.sort((a, b) => ((a.election || "").toLowerCase()).localeCompare((b.election || "").toLowerCase()));
+                else if (sortBy === "createdAt") users.sort((a, b) => {
+                    const aTime = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
+                    const bTime = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
+                    return bTime - aTime;
+                });
+                else users.sort((a, b) => (String(a.id) || "").localeCompare(String(b.id) || ""));
+
+                // Filtering
+                if (searchQuery.trim()) {
+                    const q = searchQuery.toLowerCase();
+                    users = users.filter(user => {
+                        const combined =
+                            `Name: ${user.name || ""}
+               ID: ${user.id || ""}
+               Phone: ${user.phone || ""}
+               Address: ${user.address || ""}
+               Election Area No: ${user.election || ""}
+               Created At: ${user.createdAt?.toDate ? user.createdAt.toDate().toLocaleString() : user.createdAt || ""}`
+                                .toLowerCase();
+                        return combined.includes(q);
+                    });
+                }
+
+                // Update header
+                thirdHeader.textContent = sortBy === "address" ? "Address"
+                    : sortBy === "election" ? "Election"
+                        : sortBy === "createdAt" ? "Created At"
+                            : "User ID";
+
+                // Populate table
+                tableBody.innerHTML = "";
+                let sn = 1;
+                users.forEach(user => {
+                    const thirdCell = sortBy === "address" ? (user.address || "")
+                        : sortBy === "election" ? (user.election || "")
+                            : sortBy === "createdAt" ? (user.createdAt?.toDate ? user.createdAt.toDate().toLocaleString() : user.createdAt || "")
+                                : user.id || "";
+
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+            <td>${sn++}</td>
+            <td>${user.name || ""}</td>
+            <td>${thirdCell}</td>
+          `;
+                    row.addEventListener("click", () => showDetails(user));
+                    tableBody.appendChild(row);
+                });
+            }
+
+            // Event Listeners
+            sortSelect.addEventListener("change", () => renderTable(sortSelect.value, searchInput.value));
+            searchInput.addEventListener("input", () => renderTable(sortSelect.value, searchInput.value));
+
+            // Popup
+            window.showDetails = function (user) {
+                const detailsDiv = document.getElementById("userDetails");
+                detailsDiv.innerHTML = `
+          <p><strong>Name:</strong> ${user.name || ""}</p>
+          <p><strong>ID:</strong> ${user.id || ""}</p>
+          <p><strong>Phone:</strong> ${user.phone || ""}</p>
+          <p><strong>Address:</strong> ${user.address || ""}</p>
+          <p><strong>Election:</strong> ${user.election || ""}</p>
+          <p><strong>Created At:</strong> ${user.createdAt?.toDate ? user.createdAt.toDate().toLocaleString() : user.createdAt || ""}</p>
+          ${user.id_card ? `<img src="${user.id_card}" alt="ID Card">` : ""}
+        `;
+                document.getElementById("popup").style.display = "flex";
+            };
+
+            window.closePopup = function () {
+                document.getElementById("popup").style.display = "none";
+            };
+        };
+    </script>
+
+</body>
+
+</html>
